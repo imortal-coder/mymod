@@ -3,8 +3,16 @@ project("mymod")
 
 add_library(${CMAKE_PROJECT_NAME} SHARED native-lib.c)
 
-# مسیر Dobby (چون فایل‌ها تو ریشه هستن، نه تو پوشه Dobby)
+# اضافه کردن مسیر هدرهای Dobby
 include_directories(${CMAKE_SOURCE_DIR}/include)
-add_subdirectory(${CMAKE_SOURCE_DIR})
 
-target_link_libraries(${CMAKE_PROJECT_NAME} dobby log)
+# اضافه کردن سورس‌های Dobby به صورت دستی
+file(GLOB_RECURSE DOBBY_SOURCES 
+    ${CMAKE_SOURCE_DIR}/source/*.c
+    ${CMAKE_SOURCE_DIR}/source/*.cc
+    ${CMAKE_SOURCE_DIR}/source/*.cpp
+)
+
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${DOBBY_SOURCES})
+
+target_link_libraries(${CMAKE_PROJECT_NAME} log)
